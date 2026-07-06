@@ -359,6 +359,10 @@
     position: relative;
     overflow: hidden;
     transition: all 0.4s ease;
+    background: var(--dark-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .about-frame:hover {
     border-color: var(--gold-light);
@@ -378,10 +382,27 @@
     object-fit: cover;
     filter: grayscale(20%) contrast(1.1);
     transition: all 0.5s ease;
+    display: block;
   }
   .about-frame:hover img {
     filter: grayscale(0%) contrast(1.05);
     transform: scale(1.03);
+  }
+  .about-frame .photo-placeholder {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+  }
+  .about-frame .photo-placeholder .placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+  }
+  .about-frame .photo-placeholder p {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Space Grotesk', sans-serif;
   }
   .about-text h3 {
     font-family: 'Playfair Display', serif;
@@ -540,20 +561,47 @@
     transform: translateY(-5px);
     box-shadow: 0 20px 50px rgba(0,0,0,0.4);
   }
-  .video-wrapper {
+  .video-placeholder {
     position: relative;
     padding-bottom: 56.25%;
-    height: 0;
+    background: linear-gradient(135deg, var(--dark-card) 0%, var(--dark-hover) 100%);
     overflow: hidden;
-    background: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .video-wrapper iframe {
+  .video-placeholder-inner {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  .video-placeholder-icon {
+    width: 70px;
+    height: 70px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--gold);
+    transition: all 0.3s ease;
+  }
+  .video-card:hover .video-placeholder-icon {
+    background: var(--gold);
+    color: var(--dark);
+    transform: scale(1.1);
+  }
+  .video-placeholder-text {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Space Grotesk', sans-serif;
   }
   .video-info { padding: 22px; }
   .video-tag {
@@ -567,7 +615,7 @@
   }
   .video-title {
     font-size: 1.1rem;
-    font-weight: 600;
+       font-weight: 600;
     margin-bottom: 6px;
   }
   .video-desc {
@@ -615,13 +663,6 @@
     gap: 15px;
     margin-bottom: 18px;
   }
-  .skill-icon-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
-    object-fit: cover;
-    border: 1px solid var(--border);
-  }
   .skill-icon { font-size: 1.6rem; }
   .skill-card h3 {
     font-size: 1.1rem;
@@ -667,18 +708,26 @@
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0,0,0,0.3);
   }
-  .gear-img {
+  .gear-icon-box {
     width: 100%;
-    height: 200px;
-    object-fit: contain;
-    background: var(--dark);
-    padding: 20px;
-    transition: transform 0.4s ease;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-card) 100%);
+    border-bottom: 1px solid var(--border);
   }
-  .gear-card:hover .gear-img { transform: scale(1.05); }
+  .gear-icon-box .gear-emoji {
+    font-size: 4rem;
+    filter: grayscale(0.3);
+    transition: all 0.4s ease;
+  }
+  .gear-card:hover .gear-icon-box .gear-emoji {
+    filter: grayscale(0);
+    transform: scale(1.15);
+  }
   .gear-info {
     padding: 22px;
-    border-top: 1px solid var(--border);
   }
   .gear-category-label {
     font-size: 0.65rem;
@@ -697,6 +746,15 @@
   .gear-spec {
     color: var(--text-muted);
     font-size: 0.8rem;
+  }
+  .gear-note {
+    margin-top: 30px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-style: italic;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 1px;
   }
 
   .quote {
@@ -885,7 +943,8 @@
     .hero h1 { font-size: 2rem; }
     .section-title { font-size: 1.6rem; }
     .stat-number { font-size: 1.8rem; }
-    .gear-img { height: 160px; }
+    .gear-icon-box { height: 140px; }
+    .gear-icon-box .gear-emoji { font-size: 3rem; }
   }
 </style>
 </head>
@@ -958,7 +1017,18 @@
   <div class="about-grid">
     <div class="about-visual reveal">
       <div class="about-frame">
-        <img src="images/profile.jpg" alt="Anthony Makuta - VIBESFILMS">
+        <!-- ============================================ -->
+        <!--  INSTRUCTIONS POUR TA PHOTO :                -->
+        <!--  1. Mets ta photo dans le dossier images/    -->
+        <!--  2. Nomme-la : profile.jpg                   -->
+        <!--  3. Remplace le bloc ci-dessous par :        -->
+        <!--     <img src="images/profile.jpg" alt="Anthony Makuta - VIBESFILMS"> -->
+        <!-- ============================================ -->
+        <div class="photo-placeholder">
+          <div class="placeholder-icon">👤</div>
+          <p data-en="Your Photo Here" data-fr="Votre Photo Ici">Your Photo Here</p>
+          <p style="font-size:0.65rem; margin-top:8px; opacity:0.5;">images/profile.jpg</p>
+        </div>
       </div>
     </div>
     <div class="about-text reveal">
@@ -1028,18 +1098,28 @@
       </div>
     </div>
   </div>
-</section><section class="portfolio-video" id="portfolio">
+</section>
+<section class="portfolio-video" id="portfolio">
   <div class="section-header reveal">
     <span class="section-label" data-en="Selected Work" data-fr="Travaux Selectionnes">Selected Work</span>
     <h2 class="section-title" data-en="Portfolio" data-fr="Portfolio">Portfolio</h2>
-    <p class="section-desc" data-en="A curated selection of wedding films, commercial projects, and creative cinematography." data-fr="Une selection curatee de films de mariage, projets commerciaux et cinematographie creative.">
-      A curated selection of wedding films, commercial projects, and creative cinematography.
+    <p class="section-desc" data-en="A curated selection of my wedding films, commercial projects, and creative cinematography work." data-fr="Une selection curatee de mes films de mariage, projets commerciaux et travaux de cinematographie creative.">
+      A curated selection of my wedding films, commercial projects, and creative cinematography work.
     </p>
   </div>
   <div class="video-grid">
+
+    <!-- ============================================ -->
+    <!--  VIDEO 1 : Remplace le placeholder par ton   -->
+    <!--  vrai lien YouTube/Vimeo quand tu l'auras :    -->
+    <!--  <iframe src="TON_LIEN_EMBED" ...></iframe>    -->
+    <!-- ============================================ -->
     <div class="video-card reveal">
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Wedding Film" allowfullscreen></iframe>
+      <div class="video-placeholder">
+        <div class="video-placeholder-inner">
+          <div class="video-placeholder-icon">▶</div>
+          <span class="video-placeholder-text" data-en="Wedding Film" data-fr="Film de Mariage">Wedding Film</span>
+        </div>
       </div>
       <div class="video-info">
         <div class="video-tag" data-en="Wedding" data-fr="Mariage">Wedding</div>
@@ -1049,9 +1129,17 @@
         </p>
       </div>
     </div>
+
+    <!-- ============================================ -->
+    <!--  VIDEO 2 : Placeholder pour ton projet         -->
+    <!--  commercial NEXYOR                             -->
+    <!-- ============================================ -->
     <div class="video-card reveal">
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Commercial" allowfullscreen></iframe>
+      <div class="video-placeholder">
+        <div class="video-placeholder-inner">
+          <div class="video-placeholder-icon">▶</div>
+          <span class="video-placeholder-text" data-en="Commercial" data-fr="Commercial">Commercial</span>
+        </div>
       </div>
       <div class="video-info">
         <div class="video-tag" data-en="Commercial" data-fr="Commercial">Commercial</div>
@@ -1061,9 +1149,17 @@
         </p>
       </div>
     </div>
+
+    <!-- ============================================ -->
+    <!--  VIDEO 3 : Placeholder pour couverture         -->
+    <!--  evenementielle                                -->
+    <!-- ============================================ -->
     <div class="video-card reveal">
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Event" allowfullscreen></iframe>
+      <div class="video-placeholder">
+        <div class="video-placeholder-inner">
+          <div class="video-placeholder-icon">▶</div>
+          <span class="video-placeholder-text" data-en="Event Coverage" data-fr="Couverture Evenementielle">Event Coverage</span>
+        </div>
       </div>
       <div class="video-info">
         <div class="video-tag" data-en="Event Coverage" data-fr="Couverture Evenementielle">Event Coverage</div>
@@ -1073,9 +1169,16 @@
         </p>
       </div>
     </div>
+
+    <!-- ============================================ -->
+    <!--  VIDEO 4 : Placeholder pour projet creatif     -->
+    <!-- ============================================ -->
     <div class="video-card reveal">
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Creative" allowfullscreen></iframe>
+      <div class="video-placeholder">
+        <div class="video-placeholder-inner">
+          <div class="video-placeholder-icon">▶</div>
+          <span class="video-placeholder-text" data-en="Creative" data-fr="Creatif">Creative</span>
+        </div>
       </div>
       <div class="video-info">
         <div class="video-tag" data-en="Creative" data-fr="Creatif">Creative</div>
@@ -1085,6 +1188,7 @@
         </p>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -1149,22 +1253,33 @@
   </div>
 </section>
 
+<!-- ============================================ -->
+<!--  SECTION MATERIEL : Ce que tu MAITRISES       -->
+<!--  (utilise dans des entreprises, pas a toi)    -->
+<!-- ============================================ -->
 <section class="gear" id="gear">
   <div class="section-header reveal">
     <span class="section-label" data-en="Equipment" data-fr="Equipement">Equipment</span>
-    <h2 class="section-title" data-en="My Gear" data-fr="Mon Materiel">My Gear</h2>
+    <h2 class="section-title" data-en="Gear I Master" data-fr="Materiel que je Maitrise">Gear I Master</h2>
+    <p class="section-desc" data-en="Professional equipment I operate with confidence across various production environments." data-fr="Equipement professionnel que j'utilise avec assurance dans divers environnements de production.">
+      Professional equipment I operate with confidence across various production environments.
+    </p>
   </div>
   <div class="gear-grid">
     <div class="gear-card reveal">
-      <img src="images/gear-camera.jpg" alt="Camera" class="gear-img" onerror="this.style.display='none'; this.parentElement.style.background='var(--dark-card)'; this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text-muted);font-size:3rem;>📷</div>';">
+      <div class="gear-icon-box">
+        <span class="gear-emoji">📷</span>
+      </div>
       <div class="gear-info">
         <div class="gear-category-label" data-en="Camera" data-fr="Camera">Camera</div>
         <h4 class="gear-name">Sony A7S III</h4>
-        <p class="gear-spec" data-en="Full-Frame 4K 120fps | 12.1MP | S-Log3" data-fr="Plein Format 4K 120fps | 12.1MP | S-Log3">Full-Frame 4K 120fps | 12.1MP | S-Log3</p>
+        <p class="gear-spec" data-en="Full-Frame 4K 120fps | S-Log3 | Low-light beast" data-fr="Plein Format 4K 120fps | S-Log3 | Roi de la basse lumiere">Full-Frame 4K 120fps | S-Log3 | Low-light beast</p>
       </div>
     </div>
     <div class="gear-card reveal">
-      <img src="images/gear-lens.jpg" alt="Lens" class="gear-img" onerror="this.style.display='none'; this.parentElement.style.background='var(--dark-card)'; this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text-muted);font-size:3rem;>🔭</div>';">
+      <div class="gear-icon-box">
+        <span class="gear-emoji">🔭</span>
+      </div>
       <div class="gear-info">
         <div class="gear-category-label" data-en="Lens" data-fr="Objectif">Lens</div>
         <h4 class="gear-name">Sony 24-70mm f/2.8 GM II</h4>
@@ -1172,7 +1287,9 @@
       </div>
     </div>
     <div class="gear-card reveal">
-      <img src="images/gear-gimbal.jpg" alt="Gimbal" class="gear-img" onerror="this.style.display='none'; this.parentElement.style.background='var(--dark-card)'; this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text-muted);font-size:3rem;>🎥</div>';">
+      <div class="gear-icon-box">
+        <span class="gear-emoji">🎥</span>
+      </div>
       <div class="gear-info">
         <div class="gear-category-label" data-en="Stabilization" data-fr="Stabilisation">Stabilization</div>
         <h4 class="gear-name">DJI RS 3 Pro</h4>
@@ -1180,7 +1297,9 @@
       </div>
     </div>
     <div class="gear-card reveal">
-      <img src="images/gear-drone.jpg" alt="Drone" class="gear-img" onerror="this.style.display='none'; this.parentElement.style.background='var(--dark-card)'; this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text-muted);font-size:3rem;>🚁</div>';">
+      <div class="gear-icon-box">
+        <span class="gear-emoji">🚁</span>
+      </div>
       <div class="gear-info">
         <div class="gear-category-label" data-en="Aerial" data-fr="Aerien">Aerial</div>
         <h4 class="gear-name">DJI Mavic 3 Pro</h4>
@@ -1188,7 +1307,9 @@
       </div>
     </div>
     <div class="gear-card reveal">
-      <img src="images/gear-light.jpg" alt="Light" class="gear-img" onerror="this.style.display='none'; this.parentElement.style.background='var(--dark-card)'; this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text-muted);font-size:3rem;>💡</div>';">
+      <div class="gear-icon-box">
+        <span class="gear-emoji">💡</span>
+      </div>
       <div class="gear-info">
         <div class="gear-category-label" data-en="Lighting" data-fr="Eclairage">Lighting</div>
         <h4 class="gear-name">Aputure 300D II</h4>
@@ -1196,7 +1317,9 @@
       </div>
     </div>
     <div class="gear-card reveal">
-      <img src="images/gear-audio.jpg" alt="Audio" class="gear-img" onerror="this.style.display='none'; this.parentElement.style.background='var(--dark-card)'; this.parentElement.innerHTML='<div style=padding:40px;text-align:center;color:var(--text-muted);font-size:3rem;>🎙️</div>';">
+      <div class="gear-icon-box">
+        <span class="gear-emoji">🎙️</span>
+      </div>
       <div class="gear-info">
         <div class="gear-category-label" data-en="Audio" data-fr="Audio">Audio</div>
         <h4 class="gear-name">Rode Wireless PRO</h4>
@@ -1204,6 +1327,9 @@
       </div>
     </div>
   </div>
+  <p class="gear-note reveal" data-en="* Equipment operated across various production companies and rental houses" data-fr="* Equipement utilise dans diverses entreprises de production et maisons de location">
+    * Equipment operated across various production companies and rental houses
+  </p>
 </section><section class="quote">
   <p class="quote-text reveal">
     "<span class="gold">Every frame tells a story.</span> My mission is to transform moments into timeless cinematic experiences that resonate long after the screen fades to black."
@@ -1320,5 +1446,4 @@
 
 </body>
 </html>
-
 
